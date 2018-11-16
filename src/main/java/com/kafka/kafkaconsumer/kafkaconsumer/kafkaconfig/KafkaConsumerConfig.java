@@ -1,9 +1,9 @@
 package com.kafka.kafkaconsumer.kafkaconsumer.kafkaconfig;
 
-import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import com.kafka.kafkaconsumer.kafkaconsumer.Greeting;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -59,9 +59,12 @@ public class KafkaConsumerConfig {
         consumerProps.put("bootstrap.servers", "localhost:9092");
         consumerProps.put("group.id", "my-group-id");
         consumerProps.put("enable.auto.commit", "true");
+        consumerProps.put("auto.offset.reset","latest");
+        //read_committed: In addition to reading messages that are not part of a transaction, also be able to read ones that are, after the transaction is committed.
+        //read_uncommitted: Read all messages in offset order without waiting for transactions to be committed. This option is similar to the current semantics of a Kafka consumer.
         consumerProps.put("isolation.level", "read_committed");
-        consumerProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        consumerProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerProps.put("key.deserializer", StringDeserializer.class.getName());
+        consumerProps.put("value.deserializer",StringDeserializer.class.getName());
         return new KafkaConsumer(consumerProps);
 
     }

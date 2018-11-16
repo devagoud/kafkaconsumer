@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Greeting {
-String id= UUID.randomUUID().toString();
+String id;
 String msg;
 
 
